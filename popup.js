@@ -313,6 +313,7 @@ Menu.header.section_end.button_vert.onClickRender.mixer = {
         }
     }
 };
+
 Menu.header.section_end.button_vert.onClickRender.settings = {
     type: 'folder',
     before: '<svg xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>',
@@ -554,6 +555,9 @@ Menu.header.section_end.button_vert.onClickRender.settings = {
                     }, {
                         value: 'fr',
                         label: 'Français'
+                    }, {
+                        value: 'id',
+                        label: 'Bahasa Indonesia'
                     }, {
                         value: 'it',
                         label: 'Italiano'
@@ -1623,9 +1627,17 @@ Menu.main.section.appearance = {
         }
     }
 };
+function themePopupChange() {
+    if (Satus.storage.get('red_popup_theme') === true) {
+        document.documentElement.setAttribute('popup-theme', 'red');
+    } else {
+        document.documentElement.removeAttribute('popup-theme');
+    }
+}
+
 function themeChange(event) {
     if (event.target.checked) {
-        let themes = document.querySelectorAll('.satus-switch > input:checked');
+        let themes = document.querySelectorAll('.satus-switch > input:checked:not([data-storage-key="red_popup_theme"])');
 
         for (let i = 0, l = themes.length; i < l; i++) {
             if (themes[i] !== event.target) {
@@ -1947,7 +1959,35 @@ Menu.main.section.themes = {
             }]
         }
     },
+    
+    popup_title: {
+        type: 'text',
+        label: 'Popup',
+        style: {
+            margin: '0 12px',
+            fontWeight: '700'
+        }
+    },
+    red_popup_theme: {
+        type: 'switch',
+        label: 'Red',
+        value: true,
+        class: 'satus-switch--red',
+        style: {
+            background: '#bb1a1a'
+        },
 
+        onchange: themePopupChange
+    },
+    
+    youtube_title: {
+        type: 'text',
+        label: 'YouTube',
+        style: {
+            margin: '0 12px',
+            fontWeight: '700'
+        }
+    },
     default_dark_theme: {
         type: 'switch',
         label: 'dark',
@@ -2890,6 +2930,10 @@ Satus.storage.import(function() {
                 type: 'button',
                 label: 'Français'
             },
+            id: {
+                type: 'button',
+                label: 'Bahasa Indonesia'
+            },
             it: {
                 type: 'button',
                 label: 'Italiano'
@@ -2945,6 +2989,10 @@ Satus.storage.import(function() {
         Satus.render(dialog);
     }
     
+    if (Satus.isset(Satus.storage.get('red_popup_theme')) === false || Satus.storage.get('red_popup_theme') === true) {
+        document.documentElement.setAttribute('popup-theme', 'red');
+    }
+    
     if (Satus.storage.get('default_dark_theme') === true) {
         document.documentElement.setAttribute('theme', 'dark');
     }
@@ -2979,3 +3027,5 @@ Satus.storage.import(function() {
         });
     });
 });
+
+

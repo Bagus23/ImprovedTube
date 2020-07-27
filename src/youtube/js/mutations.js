@@ -53,7 +53,7 @@ ImprovedTube.mutations = function() {
                 });
 
                 return;
-            } else if (self.paused === true && self.parentNode.parentNode.getCurrentTime() < 1 || ImprovedTube.videoUrl !== location.href) {
+            } else if (self.paused === true && /*self.parentNode.parentNode.getCurrentTime() < 1 ||*/ ImprovedTube.videoUrl !== location.href) {
                 ImprovedTube.playerUpdate(self.parentNode.parentNode, true);
             }
 
@@ -80,9 +80,13 @@ ImprovedTube.changeArgs = function(args) {
 
             if (args.player_response) {
                 var player_response = JSON.parse(args.player_response);
+                
+                console.log(player_response);
 
                 if (player_response && player_response.adPlacements) {
                     delete player_response.adPlacements;
+                    delete player_response.playerAds;
+                    
                     args.player_response = JSON.stringify(player_response);
                 }
             }

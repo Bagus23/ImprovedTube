@@ -26,6 +26,10 @@ Satus.storage.import(function() {
                 type: 'button',
                 label: 'Français'
             },
+            id: {
+                type: 'button',
+                label: 'Bahasa Indonesia'
+            },
             it: {
                 type: 'button',
                 label: 'Italiano'
@@ -81,6 +85,10 @@ Satus.storage.import(function() {
         Satus.render(dialog);
     }
     
+    if (Satus.isset(Satus.storage.get('red_popup_theme')) === false || Satus.storage.get('red_popup_theme') === true) {
+        document.documentElement.setAttribute('popup-theme', 'red');
+    }
+    
     if (Satus.storage.get('default_dark_theme') === true) {
         document.documentElement.setAttribute('theme', 'dark');
     }
@@ -115,3 +123,5 @@ Satus.storage.import(function() {
         });
     });
 });
+
+
